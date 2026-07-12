@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add and Delete</title>
+    <style>
+        .item {
+            margin: 10px 0;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>student management system</h2>
+    <input type="text" id="name" placeholder="Enter name">
+    <button onclick="addName()">Add</button>
+
+        <h3>student list:</h3>
+
+
+    <div id="list"></div>
+
+    <script>
+        function addName() {
+            let name = document.getElementById("name").value;
+
+            if (name === "") {
+                alert("Please enter a name.");
+                return;
+            }
+
+            // Creating a new div here
+            let div = document.createElement("div");
+            div.className = "item";
+
+            // Creates text
+            let span = document.createElement("span");
+            span.textContent = name;
+
+            // Create Delete button
+            let btn = document.createElement("button");
+            btn.textContent = "Delete";
+
+            // Delete only this item
+            btn.onclick = function () {
+                div.remove();
+            };
+
+            // Add text and button to the div
+            div.appendChild(span);
+            div.appendChild(btn);
+
+            // Display below
+            document.getElementById("list").appendChild(div);
+
+            // Clear the input
+            document.getElementById("name").value = "";
+        }
+    </script>
+
+</body>
+</html>

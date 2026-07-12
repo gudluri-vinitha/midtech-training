@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management System</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            margin:20px;
+        }
+
+        input,button{
+            margin:5px;
+            padding:5px;
+        }
+
+        table{
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        table,th,td{
+            border:1px solid black;
+            padding:8px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Student Management System</h2>
+
+<input type="text" id="id" placeholder="Student ID"><br>
+
+<input type="text" id="name" placeholder="Student Name"><br>
+
+<input type="text" id="marks" placeholder="Student Marks"><br>
+
+<button onclick="addStudent()">Add Student</button>
+<button onclick="showReport()">Show Report</button>
+
+<br><br>
+
+<table id="studentTable">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Marks</th>
+        <th>Grade</th>
+    </tr>
+</table>
+
+<br>
+
+<p id="topper"></p>
+<p id="average"></p>
+<p id="passed"></p>
+<p id="failed"></p>
+
+<script>
+
+let students=[];
+
+function getGrade(marks){
+
+    if(marks>=90){
+        return "Grade A";
+    }
+    else if(marks>=75){
+        return "Grade B";
+    }
+    else if(marks>=60){
+        return "Grade C";
+    }
+    else{
+        return "Fail";
+    }
+
+}
+
+function addStudent(){
+
+    let id=document.getElementById("id").value;
+    let name=document.getElementById("name").value;
+    let marks=Number(document.getElementById("marks").value);
+
+    let student={
+        id:id,
+        name:name,
+        marks:marks
+    };
+
+    students.push(student);
+
+    document.getElementById("id").value="";
+    document.getElementById("name").value="";
+    document.getElementById("marks").value="";
+
+}
+
+function showReport(){
+
+    students.sort(function(a,b){
+        return b.marks-a.marks;
+    });
+
+    let table=document.getElementById("studentTable");
+
+    table.innerHTML="<tr><th>ID</th><th>Name</th><th>Marks</th><th>Grade</th></tr>";
+
+    let total=0;
+    let pass=0;
+    let fail=0;
+
+    for(let i=0;i<students.length;i++){
+
+        let row="<tr>";
+        row+="<td>"+students[i].id+"</td>";
+        row+="<td>"+students[i].name+"</td>";
+        row+="<td>"+students[i].marks+"</td>";
+        row+="<td>"+getGrade(students[i].marks)+"</td>";
+        row+="</tr>";
+
+        table.innerHTML+=row;
+
+        total=total+students[i].marks;
+
+        if(students[i].marks>=60){
+            pass++;
+        }
+        else{
+            fail++;
+        }
+
+    }
+
+    let average=total/students.length;
+
+    document.getElementById("topper").innerHTML="<b>Topper :</b> "+students[0].name+" ("+students[0].marks+")";
+
+    document.getElementById("average").innerHTML="<b>Average Marks :</b> "+average.toFixed(0);
+
+    document.getElementById("passed").innerHTML="<b>Total Passed :</b> "+pass;
+
+    document.getElementById("failed").innerHTML="<b>Total Failed :</b> "+fail;
+
+}
+
+</script>
+
+</body>
+</html>
